@@ -22,16 +22,16 @@ export type ThemeId =
   | "friendship"
   | "courage"
   | "kindness"
-  | "justice"
   | "teamwork"
-  | "hope";
+  | "honesty"
+  | "curiosity";
 export type MoodId =
-  | "warm-heartfelt"
   | "funny"
+  | "cozy"
   | "mysterious"
-  | "adventurous"
-  | "emotional"
-  | "magical";
+  | "exciting"
+  | "magical"
+  | "brave";
 export type LengthId = "short" | "long" | "series";
 
 export type StorySelectionKey =
@@ -64,21 +64,17 @@ export type StorySelections = {
 export type StoryOption = {
   id: string;
   title: string;
-  emoji: string;
   description: string;
   iconBackground: string;
+  iconSrc?: string;
   sceneClass?: string;
 };
 
 export type CharacterPose =
-  | "idle"
-  | "walk_1"
-  | "walk_2"
-  | "jump"
-  | "happy"
-  | "surprised"
-  | "fly_1"
-  | "fly_2";
+  | "front"
+  | "side"
+  | "back"
+  | "action";
 
 export type CharacterOption = StoryOption & {
   assetFolder: CharacterId;

@@ -1,18 +1,21 @@
 # UriNuri character assets
 
-These folders are reserved for the official UriNuri pixel-art sprites. The uploaded character sheets are the visual reference and must not be replaced with a different art style.
-
-Each character can provide the pixel-perfect PNG poses that fit its movement set:
+Character artwork is served directly from this directory. In the app, use the
+public URL without the `public` segment, for example:
 
 ```text
-idle.png
-walk_1.png
-walk_2.png
-jump.png
-happy.png
-surprised.png
-fly_1.png
-fly_2.png
+/characters/dragon/front.png
 ```
 
-Use nearest-neighbor export and keep the thick outlines, limited palettes, proportions, and expressive GBA-style presentation from the reference sheets. Until the individual sprites are supplied, the app shows an explicit placeholder through `CharacterSprite.tsx`.
+Available poses are:
+
+```text
+front.png
+side.png
+back.png
+action.png
+```
+
+The MVP character selection uses the exact `front.png` asset for Tiger,
+Dragon, Crow, Monkey, Fox, Rabbit, and Panda. Story loading scenes use the
+selected character's exact `action.png` asset.

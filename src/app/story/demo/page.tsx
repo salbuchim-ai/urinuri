@@ -1,5 +1,5 @@
-import { StoryResult } from "@/components/story/StoryResult";
+import { redirect } from "next/navigation";
 
 export default function DemoPage() {
-  return <StoryResult />;
+  redirect("/story/result");
 }

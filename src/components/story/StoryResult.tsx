@@ -1,38 +1,77 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useRouter } from "next/navigation";
 import { adventures } from "@/data/adventures";
 import { characters } from "@/data/characters";
 import { countries } from "@/data/countries";
 import { moods } from "@/data/moods";
 import { themes } from "@/data/themes";
-import { lengths } from "@/data/lengths";
-import { buildStory, buildTitle } from "@/lib/story-content";
-import { PixelScene } from "@/components/story/PixelScene";
+import { buildDirections, buildIntro, buildStory } from "@/lib/story-content";
 import { CharacterSprite } from "@/components/story/CharacterSprite";
+import { ChoiceCard } from "@/components/story/ChoiceCard";
+import { PrimaryButton } from "@/components/story/PrimaryButton";
 import { ProgressIndicator } from "@/components/story/ProgressIndicator";
-import { StorySummary } from "@/components/story/StorySummary";
+import { StoryOpeningScene } from "@/components/story/StoryOpeningScene";
 import { useStoryFlow } from "@/components/story/StoryFlowProvider";
-import type { StoryOption } from "@/types/story";
+import type { AdventureId, CharacterId, StoryOption } from "@/types/story";
+
+type StoryStage = "opening" | "choice" | "loading" | "continued";
 
 function getOption(options: StoryOption[], value: string | null, fallback: StoryOption) {
   return options.find((option) => option.id === value) ?? fallback;
 }
 
+function getLoadingMessage(character: StoryOption, adventure: StoryOption) {
+  const messages: Record<string, string> = {
+    tiger: "Tiger is running through the forest...",
+    monkey: "Monkey is looking for fresh fruit...",
+    rabbit: "Rabbit is hopping across the meadow...",
+    crow: "Crow is searching the ancient temple...",
+    dragon: `Dragon is flying across ${adventure.title}...`,
+    fox: "Fox is following a trail of glowing footprints...",
+    panda: "Panda is listening for a friendly voice...",
+  };
+
+  return messages[character.id] ?? `${character.title} is exploring a brand-new path...`;
+}
+
 export function StoryResult() {
   const router = useRouter();
   const { selections, setStoryPart, resetSelections } = useStoryFlow();
-  const [showIllustration, setShowIllustration] = useState(false);
-  const [showReflection, setShowReflection] = useState(false);
+  const [stage, setStage] = useState<StoryStage>("opening");
+  const [selectedDirection, setSelectedDirection] = useState<string | null>(selections.selectedDirection);
   const country = getOption(countries, selections.country, countries[0]);
   const character = getOption(characters, selections.character, characters[0]);
   const adventure = getOption(adventures, selections.adventure, adventures[0]);
   const theme = getOption(themes, selections.theme, themes[0]);
   const mood = getOption(moods, selections.mood, moods[0]);
-  const length = getOption(lengths, selections.length, lengths[0]);
-  const direction = selections.selectedDirection ?? "The path beyond the first hill";
-  const story = selections.story || buildStory(country, character, adventure, theme, mood, direction);
+  const intro = useMemo(() => selections.intro || buildIntro(country, character, adventure, mood), [adventure, character, country, mood, selections.intro]);
+  const directions = useMemo(() => selections.directionOptions.length ? selections.directionOptions : buildDirections(adventure, theme), [adventure, selections.directionOptions, theme]);
+  const loadingMessage = getLoadingMessage(character, adventure);
+
+  useEffect(() => {
+    if (stage !== "loading" || !selectedDirection) return;
+
+    const timeoutId = window.setTimeout(() => {
+      setStoryPart("story", buildStory(country, character, adventure, theme, mood, selectedDirection));
+      setStage("continued");
+    }, 1800);
+
+    return () => window.clearTimeout(timeoutId);
+  }, [adventure, character, country, mood, selectedDirection, setStoryPart, stage, theme]);
+
+  function openChoices() {
+    setStoryPart("intro", intro);
+    setStoryPart("directionOptions", directions);
+    setStage("choice");
+  }
+
+  function chooseDirection(direction: string) {
+    setSelectedDirection(direction);
+    setStoryPart("selectedDirection", direction);
+    setStage("loading");
+  }
 
   function startAnotherStory() {
     resetSelections();
@@ -44,128 +83,102 @@ export function StoryResult() {
     router.push("/");
   }
 
-  function continueSeries() {
-    setStoryPart("selectedDirection", "");
-    setStoryPart("story", "");
-    router.push("/story/direction");
-  }
-
   return (
-    <main className="min-h-screen bg-[#dff4ff] px-5 py-7 text-sky-950 md:px-10 md:py-10">
-      <div className="mx-auto max-w-5xl">
-        <div className="mb-8 flex items-center justify-between gap-4">
-          <button
-            type="button"
-            onClick={goHome}
-            className="inline-flex items-center gap-2 rounded-xl px-2 py-1 text-sm font-black text-sky-900 transition hover:bg-white/70 focus:outline-none focus:ring-4 focus:ring-yellow-200"
-          >
-            <span aria-hidden="true">🌈</span> UriNuri
-          </button>
-          <span className="pixel-text text-xs font-black text-sky-700">Story complete</span>
-        </div>
-        <ProgressIndicator currentStep={9} totalSteps={10} />
+    <main className="min-h-screen bg-white px-3 py-4 text-slate-950 sm:px-5">
+      <div className="mx-auto w-full max-w-[760px]">
+        <header className="mb-3 text-center">
+          <h1 className="text-xl font-black tracking-tight">7. Story Result (Choose the Path)</h1>
+        </header>
 
-        <article className="mt-8 overflow-hidden rounded-3xl border-[3px] border-sky-950 bg-white/90 pixel-shadow">
-          <div className="bg-gradient-to-br from-sky-300 via-emerald-200 to-yellow-200 px-6 py-12 text-center md:px-12 md:py-16">
-            <div className="flex items-center justify-center gap-4" aria-hidden="true">
-              <CharacterSprite
-                characterId={character.id as Parameters<typeof CharacterSprite>[0]["characterId"]}
-                fallbackEmoji={character.emoji}
-                label={character.title}
-                className="h-28 w-28 bg-transparent text-7xl"
-              />
-              <span className="text-6xl">{adventure.emoji}</span>
-            </div>
-            <p className="pixel-text mt-5 text-xs font-black uppercase tracking-[0.16em] text-sky-900">
-              {country.title} · {length.title}
-            </p>
-            <h1 className="mt-3 text-4xl font-black tracking-tight text-sky-950 md:text-5xl">
-              {buildTitle(character, adventure)}
-            </h1>
-          </div>
-
-          <div className="space-y-8 px-6 py-8 md:px-12 md:py-12">
-            <div>
-              <p className="pixel-text text-xs font-black uppercase tracking-[0.18em] text-sky-700">
-                You chose this direction
-              </p>
-              <p className="mt-3 rounded-2xl border-2 border-sky-950/10 bg-[#effaff] p-5 font-bold leading-7 text-sky-950">
-                {direction}
-              </p>
-            </div>
-
-            <div className="space-y-5 text-lg leading-9 text-sky-950/85">
-              {story.split("\n\n").map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-
-            <StorySummary selections={selections} />
-
-            <div className="rounded-2xl border-[3px] border-sky-950/15 bg-sky-50 p-5">
+        <div className="grid gap-3 lg:grid-cols-[1fr_1.08fr_0.82fr]">
+          <section className="overflow-hidden rounded-lg border border-slate-200 bg-[#f8fafc] shadow-sm">
+            <StageHeader title="7-1. Opening Scene" active={stage === "opening" ? 1 : 3} />
+            <StoryOpeningScene characterId={character.id as CharacterId} adventureId={adventure.id as AdventureId} />
+            <div className="p-3">
+              <div className="space-y-3 text-xs font-bold leading-5 text-slate-950">
+                {intro.split(". ").reduce<string[]>((paragraphs, sentence, index, all) => {
+                  if (index % 2 === 0) paragraphs.push(`${sentence}${all[index + 1] ? `. ${all[index + 1]}` : ""}`);
+                  return paragraphs;
+                }, []).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+              </div>
               <button
                 type="button"
-                onClick={() => setShowReflection((current) => !current)}
-                className="font-black text-sky-950 underline decoration-yellow-400 decoration-4 underline-offset-4 focus:outline-none focus:ring-4 focus:ring-yellow-200"
-                aria-expanded={showReflection}
+                onClick={openChoices}
+                disabled={stage !== "opening"}
+                className="mx-auto mt-3 block text-xl font-black text-blue-700 disabled:text-slate-300"
+                aria-label="Continue to story choices"
               >
-                {showReflection ? "Hide Story Reflection" : "Show Story Reflection (optional)"}
-              </button>
-              {showReflection ? (
-                <p className="mt-4 leading-7 text-sky-900/75">
-                  What was your favorite choice? What might happen if the characters took a different path?
-                </p>
-              ) : null}
-            </div>
-
-            <div className="flex flex-col gap-3 sm:flex-row sm:flex-wrap">
-              {selections.length === "series" ? (
-                <button
-                  type="button"
-                  onClick={continueSeries}
-                  className="inline-flex min-h-14 items-center justify-center rounded-xl border-[3px] border-sky-950 bg-yellow-400 px-6 font-black text-sky-950 pixel-shadow transition hover:-translate-y-0.5 hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-200"
-                >
-                  Continue the Story →
-                </button>
-              ) : null}
-              <button
-                type="button"
-                onClick={() => setShowIllustration((current) => !current)}
-                className="inline-flex min-h-14 items-center justify-center rounded-xl border-[3px] border-sky-950 bg-emerald-300 px-6 font-black text-sky-950 transition hover:-translate-y-0.5 hover:bg-emerald-200 focus:outline-none focus:ring-4 focus:ring-yellow-200"
-                aria-pressed={showIllustration}
-              >
-                {showIllustration ? "Hide Illustration" : "Generate Illustration"}
-              </button>
-              <button
-                type="button"
-                onClick={startAnotherStory}
-                className="inline-flex min-h-14 items-center justify-center rounded-xl border-[3px] border-sky-950/20 bg-white px-6 font-black text-sky-900 transition hover:border-sky-950/45 focus:outline-none focus:ring-4 focus:ring-yellow-200"
-              >
-                Create Another Story
-              </button>
-              <button
-                type="button"
-                onClick={goHome}
-                className="inline-flex min-h-14 items-center justify-center rounded-xl border-[3px] border-sky-950/20 bg-white px-6 font-black text-sky-900 transition hover:border-sky-950/45 focus:outline-none focus:ring-4 focus:ring-yellow-200"
-              >
-                Back to Home
+                ↓
               </button>
             </div>
+          </section>
 
-            {showIllustration ? (
-              <div className="rounded-2xl border-[3px] border-sky-950 bg-yellow-50 p-4">
-                <p className="pixel-text mb-4 text-xs font-black uppercase tracking-[0.18em] text-sky-700">
-                  Illustration preview
-                </p>
-                <PixelScene variant="legend" />
-                <p className="mt-3 text-sm text-sky-900/70">
-                  This is a placeholder preview. A real illustration model can be connected here later.
-                </p>
+          <section className="rounded-lg border border-slate-200 bg-[#f8fafc] p-2.5 shadow-sm">
+            <StageHeader title="7-2. Make a Choice" active={stage === "choice" ? 2 : stage === "continued" ? 3 : 1} />
+            <div className="rounded-lg border border-slate-200 bg-white p-2.5">
+              <div className="mb-3 flex items-center justify-between gap-2">
+                <h2 className="text-xs font-black">Where should the story go?</h2>
+              </div>
+              <div className="grid gap-2">
+                {directions.map((direction, index) => (
+                  <ChoiceCard
+                    key={direction}
+                    index={index + 1}
+                    text={direction}
+                    disabled={stage !== "choice"}
+                    selected={selectedDirection === direction}
+                    onSelect={() => chooseDirection(direction)}
+                  />
+                ))}
+              </div>
+            </div>
+          </section>
+
+          <section className="overflow-hidden rounded-lg border border-slate-200 bg-[#f8fafc] shadow-sm">
+            <StageHeader title="7-3. Generating the Rest" active={stage === "loading" ? 2 : stage === "continued" ? 3 : 1} />
+            <div className="flex min-h-[310px] flex-col items-center justify-center bg-[#eef6ff] px-4 py-6 text-center">
+              {stage === "continued" ? (
+                <div className="space-y-3 text-xs font-bold leading-5 text-slate-950">
+                  {selections.story.split("\n\n").slice(-2).map((paragraph) => <p key={paragraph}>{paragraph}</p>)}
+                </div>
+              ) : (
+                <>
+                  <p className="max-w-[160px] text-xs font-black leading-6 text-slate-950">{stage === "loading" ? loadingMessage : `Choose a path to see what ${character.title} does next...`}</p>
+                  <CharacterSprite characterId={character.id as CharacterId} pose="action" label={character.title} hideSourceLabel className="mt-5 h-24 w-24 bg-transparent" />
+                  {stage === "loading" ? <LoadingDots /> : null}
+                </>
+              )}
+            </div>
+            {stage === "continued" ? (
+              <div className="flex flex-col gap-2 p-2.5">
+                <PrimaryButton onClick={startAnotherStory} className="w-full">Create Another Story</PrimaryButton>
+                <button type="button" onClick={goHome} className="text-xs font-black text-blue-700 underline">Back to Home</button>
               </div>
             ) : null}
-          </div>
-        </article>
+          </section>
+        </div>
       </div>
     </main>
+  );
+}
+
+function StageHeader({ title, active }: { title: string; active: number }) {
+  return (
+    <div className="px-2.5 pb-2 pt-2 text-center">
+      <h2 className="text-[11px] font-black">{title}</h2>
+      <div className="mx-auto mt-2 max-w-[90px]">
+        <ProgressIndicator currentStep={active} totalSteps={3} />
+      </div>
+    </div>
+  );
+}
+
+function LoadingDots() {
+  return (
+    <div className="mt-5 flex gap-1.5" aria-label="Loading" role="status">
+      <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-blue-700 [animation-delay:-0.2s]" />
+      <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-blue-700 [animation-delay:-0.1s]" />
+      <span className="h-2.5 w-2.5 animate-bounce rounded-full bg-blue-700" />
+    </div>
   );
 }

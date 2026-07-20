@@ -5,13 +5,13 @@ export default function AdventurePage() {
   return (
     <SelectionStep
       currentStep={3}
+      stepName="Adventure"
       title="Choose an Adventure"
-      description="Pick a place where your character will discover something wonderful."
       selectionKey="adventure"
       options={adventures}
       backHref="/create/character"
-      nextHref="/create/theme"
-      cardVariant="adventure"
+      nextHref="/create/mood"
+      cardType="adventure"
     />
   );
 }

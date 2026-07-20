@@ -4,7 +4,7 @@ import type { CharacterId, CharacterPose } from "@/types/story";
 
 export function PixelCharacter({
   characterId,
-  pose = "idle",
+  pose = "front",
   className = "",
 }: {
   characterId: CharacterId | null;
@@ -18,9 +18,9 @@ export function PixelCharacter({
       <CharacterSprite
         characterId={characterId}
         pose={pose}
-        fallbackEmoji={character.emoji}
         label={`${character.title} pixel character`}
-        className="bg-transparent"
+        hideSourceLabel
+        className="h-full w-full bg-transparent"
       />
     </div>
   );

@@ -1,6 +1,7 @@
 "use client";
 
 import type { StoryOption } from "@/types/story";
+import { StoryIcon } from "@/components/story/StoryIcon";
 
 type SelectionCardProps = {
   option: StoryOption;
@@ -17,9 +18,7 @@ export function SelectionCard({
   visual,
   className = "",
 }: SelectionCardProps) {
-  const iconClass = option.sceneClass
-    ? `bg-gradient-to-br ${option.sceneClass}`
-    : option.iconBackground;
+  const iconClass = option.iconBackground;
 
   return (
     <button
@@ -33,10 +32,16 @@ export function SelectionCard({
       } ${className}`}
     >
       <span
-        className={`pixel-art flex h-24 w-full items-center justify-center rounded-xl text-6xl ${iconClass}`}
+        className={`pixel-art flex h-24 w-full items-center justify-center rounded-xl ${iconClass}`}
         aria-hidden="true"
       >
-        {visual ?? option.emoji}
+        {visual ?? (
+          option.iconSrc ? (
+            <StoryIcon src={option.iconSrc} alt="" className="h-20 w-20" />
+          ) : (
+            <span className="text-sm font-black text-sky-950">{option.title}</span>
+          )
+        )}
       </span>
       <span className="mt-5 text-xl font-black text-sky-950">{option.title}</span>
       <span className="mt-2 text-sm font-medium leading-6 text-sky-900/70">

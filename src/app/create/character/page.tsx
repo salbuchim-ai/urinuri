@@ -5,13 +5,13 @@ export default function CharacterPage() {
   return (
     <SelectionStep
       currentStep={2}
+      stepName="Character"
       title="Choose a Character"
-      description="Who will lead the adventure? Pick one character to guide the story."
       selectionKey="character"
       options={characters}
       backHref="/create/country"
       nextHref="/create/adventure"
-      cardVariant="character"
+      cardType="character"
     />
   );
 }

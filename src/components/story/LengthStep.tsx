@@ -3,49 +3,44 @@
 import { useRouter } from "next/navigation";
 import { lengths } from "@/data/lengths";
 import { NavigationButtons } from "@/components/story/NavigationButtons";
-import { SelectionCard } from "@/components/story/SelectionCard";
+import { ProgressIndicator } from "@/components/story/ProgressIndicator";
 import { StepHeader } from "@/components/story/StepHeader";
-import { StorySummary } from "@/components/story/StorySummary";
+import { StoryLengthCard } from "@/components/story/StoryLengthCard";
 import { useStoryFlow } from "@/components/story/StoryFlowProvider";
 
 export function LengthStep() {
   const router = useRouter();
   const { selections, setSelection } = useStoryFlow();
-  const selectedLength = selections.length;
 
   function handleNext() {
-    if (selectedLength) {
-      router.push("/story/generating");
+    if (selections.length) {
+      router.push("/story/result");
     }
   }
 
   return (
-    <main className="min-h-screen bg-[#dff4ff] px-5 py-7 text-sky-950 md:px-10 md:py-10">
-      <div className="mx-auto max-w-6xl">
-        <StepHeader
-          currentStep={6}
-          title="Choose Story Length"
-          description="Choose how much room your story needs to grow. You can always create another one later."
-        />
-
-        <section aria-label="Story length options">
-          <div className="grid gap-5 md:grid-cols-3">
+    <main className="min-h-screen bg-white px-3 py-4 text-slate-950 sm:px-5">
+      <div className="mx-auto w-full max-w-[390px]">
+        <StepHeader currentStep={6} stepName="Story Length" />
+        <section className="rounded-lg border border-slate-200 bg-[#f8fafc] px-2.5 py-2.5 shadow-sm">
+          <h2 className="text-center text-sm font-black">Choose Length</h2>
+          <div className="mx-auto mt-3 max-w-[150px]">
+            <ProgressIndicator currentStep={4} totalSteps={4} />
+          </div>
+          <div className="mt-4 grid gap-1.5">
             {lengths.map((option) => (
-              <SelectionCard
+              <StoryLengthCard
                 key={option.id}
                 option={option}
-                selected={selectedLength === option.id}
+                selected={selections.length === option.id}
                 onSelect={() => setSelection("length", option.id)}
               />
             ))}
           </div>
-
-          <StorySummary selections={selections} />
-
           <NavigationButtons
-            backHref="/create/mood"
-            nextLabel="Begin My Story"
-            nextDisabled={!selectedLength}
+            backHref="/create/theme"
+            nextLabel="Next"
+            nextDisabled={!selections.length}
             onNext={handleNext}
           />
         </section>

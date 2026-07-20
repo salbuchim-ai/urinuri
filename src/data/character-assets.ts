@@ -1,111 +1,80 @@
 import type { CharacterAssetMap, CharacterId, CharacterPose } from "@/types/story";
 
-export const characterPoses: CharacterPose[] = [
-  "idle",
-  "walk_1",
-  "walk_2",
-  "jump",
-  "happy",
-  "surprised",
-  "fly_1",
-  "fly_2",
-];
+export const characterPoses: CharacterPose[] = ["front", "side", "back", "action"];
 
-export const characterAssets: Record<CharacterId, CharacterAssetMap> = {
-  tiger: {
-    idle: "/characters/tiger/idle.png",
-    walk_1: "/characters/tiger/walk_1.png",
-    walk_2: "/characters/tiger/walk_2.png",
-    jump: "/characters/tiger/jump.png",
-    happy: "/characters/tiger/happy.png",
-    surprised: "/characters/tiger/surprised.png",
-  },
-  rabbit: {
-    idle: "/characters/rabbit/idle.png",
-    walk_1: "/characters/rabbit/walk_1.png",
-    walk_2: "/characters/rabbit/walk_2.png",
-  },
-  dragon: {
-    fly_1: "/characters/dragon/fly_1.png",
-    fly_2: "/characters/dragon/fly_2.png",
+export const characterAssets: Partial<Record<CharacterId, CharacterAssetMap>> = {
+  bear: {
+    front: "/characters/bear/front.png",
+    side: "/characters/bear/side.png",
+    back: "/characters/bear/back.png",
+    action: "/characters/bear/action.png",
   },
   crow: {
-    idle: "/characters/crow/idle.png",
-    walk_1: "/characters/crow/walk_1.png",
-    walk_2: "/characters/crow/walk_2.png",
-    happy: "/characters/crow/happy.png",
-    surprised: "/characters/crow/surprised.png",
-  },
-  monkey: {
-    idle: "/characters/monkey/idle.png",
-    walk_1: "/characters/monkey/walk_1.png",
-    walk_2: "/characters/monkey/walk_2.png",
-    jump: "/characters/monkey/jump.png",
-    happy: "/characters/monkey/happy.png",
-    surprised: "/characters/monkey/surprised.png",
-  },
-  fox: {
-    idle: "/characters/fox/idle.png",
-    walk_1: "/characters/fox/walk_1.png",
-    walk_2: "/characters/fox/walk_2.png",
-    jump: "/characters/fox/jump.png",
-    happy: "/characters/fox/happy.png",
-    surprised: "/characters/fox/surprised.png",
-  },
-  panda: {
-    idle: "/characters/panda/idle.png",
-    walk_1: "/characters/panda/walk_1.png",
-    walk_2: "/characters/panda/walk_2.png",
-    happy: "/characters/panda/happy.png",
-  },
-  bear: {
-    idle: "/characters/bear/idle.png",
-    walk_1: "/characters/bear/walk_1.png",
-    walk_2: "/characters/bear/walk_2.png",
-    happy: "/characters/bear/happy.png",
+    front: "/characters/crow/front.png",
+    side: "/characters/crow/side.png",
+    back: "/characters/crow/back.png",
+    action: "/characters/crow/action.png",
   },
   deer: {
-    idle: "/characters/deer/idle.png",
-    walk_1: "/characters/deer/walk_1.png",
-    walk_2: "/characters/deer/walk_2.png",
-    happy: "/characters/deer/happy.png",
+    front: "/characters/deer/front.png",
+    side: "/characters/deer/side.png",
+    back: "/characters/deer/back.png",
+    action: "/characters/deer/action.png",
   },
-  goldfish: {
-    idle: "/characters/goldfish/idle.png",
-    walk_1: "/characters/goldfish/walk_1.png",
-    walk_2: "/characters/goldfish/walk_2.png",
-    happy: "/characters/goldfish/happy.png",
+  dragon: {
+    front: "/characters/dragon/front.png",
+    side: "/characters/dragon/side.png",
+    back: "/characters/dragon/back.png",
+    action: "/characters/dragon/action.png",
   },
-  haetae: {
-    idle: "/characters/haetae/idle.png",
-    walk_1: "/characters/haetae/walk_1.png",
-    walk_2: "/characters/haetae/walk_2.png",
-    happy: "/characters/haetae/happy.png",
-  },
-  crane: {
-    idle: "/characters/crane/idle.png",
-    walk_1: "/characters/crane/walk_1.png",
-    walk_2: "/characters/crane/walk_2.png",
-    happy: "/characters/crane/happy.png",
-  },
-  squirrel: {
-    idle: "/characters/squirrel/idle.png",
-    walk_1: "/characters/squirrel/walk_1.png",
-    walk_2: "/characters/squirrel/walk_2.png",
-    happy: "/characters/squirrel/happy.png",
+  fox: {
+    front: "/characters/fox/front.png",
+    side: "/characters/fox/side.png",
+    back: "/characters/fox/back.png",
+    action: "/characters/fox/action.png",
   },
   girin: {
-    idle: "/characters/girin/idle.png",
-    walk_1: "/characters/girin/walk_1.png",
-    walk_2: "/characters/girin/walk_2.png",
-    happy: "/characters/girin/happy.png",
+    front: "/characters/girin/front.png",
+    side: "/characters/girin/side.png",
+    back: "/characters/girin/back.png",
+    action: "/characters/girin/action.png",
+  },
+  monkey: {
+    front: "/characters/monkey/front.png",
+    side: "/characters/monkey/side.png",
+    back: "/characters/monkey/back.png",
+    action: "/characters/monkey/action.png",
+  },
+  panda: {
+    front: "/characters/panda/front.png",
+    side: "/characters/panda/side.png",
+    back: "/characters/panda/back.png",
+    action: "/characters/panda/action.png",
+  },
+  rabbit: {
+    front: "/characters/rabbit/front.png",
+    side: "/characters/rabbit/side.png",
+    back: "/characters/rabbit/back.png",
+    action: "/characters/rabbit/action.png",
+  },
+  squirrel: {
+    front: "/characters/squirrel/front.png",
+    side: "/characters/squirrel/side.png",
+    back: "/characters/squirrel/back.png",
+    action: "/characters/squirrel/action.png",
+  },
+  tiger: {
+    front: "/characters/tiger/front.png",
+    side: "/characters/tiger/side.png",
+    back: "/characters/tiger/back.png",
+    action: "/characters/tiger/action.png",
   },
 };
 
 export function getCharacterAssetPath(
   characterId: CharacterId,
-  pose: CharacterPose = "idle",
+  pose: CharacterPose = "front",
 ) {
   const assets = characterAssets[characterId];
-  return assets[pose] ?? assets.idle ?? assets.fly_1 ?? Object.values(assets)[0] ?? null;
+  return assets?.[pose] ?? assets?.front ?? null;
 }

@@ -1,5 +1,5 @@
-import { GeneratingStory } from "@/components/story/GeneratingStory";
+import { redirect } from "next/navigation";
 
 export default function GeneratingPage() {
-  return <GeneratingStory />;
+  redirect("/story/result");
 }
