@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { StoryFlowProvider } from "@/components/story/StoryFlowProvider";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -13,9 +14,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "UriNuri | 우리 아이만의 AI 이야기",
-  description:
-    "나라와 주인공, 모험을 선택하면 AI가 우리 아이만의 이야기와 삽화를 만들어 줍니다.",
+  title: "UriNuri | Every Story Begins With You",
+  description: "Create playful, child-friendly stories inspired by cultures around the world.",
 };
 
 export default function RootLayout({
@@ -24,11 +24,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="ko">
-      <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
-      >
-        {children}
+    <html lang="en">
+      <body className={`${geistSans.variable} ${geistMono.variable}`}>
+        <StoryFlowProvider>{children}</StoryFlowProvider>
       </body>
     </html>
   );
