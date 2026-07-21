@@ -4,6 +4,37 @@ UriNuri is a pixel-art story-making app for children. Readers choose a country,
 characters, adventure, mood, theme, and story length, then collaborate with an AI
 story engine to choose what happens next.
 
+UriNuri is designed for children and grown-ups to explore together. Instead of
+receiving a random story, the reader makes small choices that shape the setting,
+characters, and direction of the story.
+
+## Built with
+
+- Next.js App Router
+- React and TypeScript
+- Tailwind CSS
+- OpenAI Responses API integration for optional live generation
+- Local browser storage for saved stories
+- Custom pixel-art character and story assets
+
+## How Codex and GPT-5.6 were used
+
+Codex with GPT-5.6 was used as a development copilot throughout the project. It
+helped plan the child-friendly story flow, implement the Next.js interface and
+state management, refine the pixel-art UI, remove unwanted image backgrounds,
+fix character alignment and animation bounds, debug the deployment, and prepare
+the Devpost submission materials.
+
+The submitted deployment runs in Demo Mode with a local story generator. This
+keeps the demo reliable without an API key or runtime model usage. The project
+also includes a server-side OpenAI Responses API route for optional live mode;
+the model can be configured with `OPENAI_MODEL`.
+
+## Live demo and source
+
+- Live demo: [urinuri.vercel.app](https://urinuri.vercel.app)
+- Source code: [github.com/salbuchim-ai/urinuri](https://github.com/salbuchim-ai/urinuri)
+
 ## Run locally
 
 Install dependencies and start the development server:
