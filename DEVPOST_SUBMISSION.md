@@ -52,7 +52,7 @@ The submitted deployment runs in Demo Mode, so no sign-in or API key is required
 
 ## Links
 
-- Live demo: _Add the deployment URL after publishing._
+- Live demo: https://urinuri.vercel.app
 - Source code: https://github.com/salbuchim-ai/urinuri
 - Demo video: _Add the public YouTube or Vimeo URL._
 
