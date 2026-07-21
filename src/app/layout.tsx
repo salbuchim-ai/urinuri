@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import { AppHeader } from "@/components/story/AppHeader";
 import { StoryFlowProvider } from "@/components/story/StoryFlowProvider";
 import "./globals.css";
 
@@ -26,7 +27,10 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={`${geistSans.variable} ${geistMono.variable}`}>
-        <StoryFlowProvider>{children}</StoryFlowProvider>
+        <StoryFlowProvider>
+          <AppHeader />
+          {children}
+        </StoryFlowProvider>
       </body>
     </html>
   );

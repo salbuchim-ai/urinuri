@@ -2,7 +2,7 @@ import Image from "next/image";
 
 export function StoryIcon({ src, alt, className = "" }: { src: string; alt: string; className?: string }) {
   return (
-    <span className={`relative block overflow-hidden ${className}`}>
+    <span className={`pixel-icon-float relative block overflow-hidden ${className}`}>
       <Image
         src={src}
         alt={alt}

@@ -21,6 +21,9 @@ export const characters: CharacterOption[] = [
     title: "Crow",
     description: "Clever, curious, and always spotting hidden clues.",
     iconBackground: "bg-slate-200",
+    display: {
+      cardFrontScale: 0.72,
+    },
   },
   {
     id: "monkey",
@@ -35,6 +38,9 @@ export const characters: CharacterOption[] = [
     title: "Fox",
     description: "A thoughtful explorer with a clever plan.",
     iconBackground: "bg-amber-100",
+    display: {
+      cardFrontOffsetX: -8,
+    },
   },
   {
     id: "rabbit",
@@ -42,6 +48,9 @@ export const characters: CharacterOption[] = [
     title: "Rabbit",
     description: "Kind-hearted, speedy, and always helping friends.",
     iconBackground: "bg-pink-100",
+    display: {
+      cardFrontOffsetX: -8,
+    },
   },
   {
     id: "panda",

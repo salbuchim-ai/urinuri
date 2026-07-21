@@ -1,4 +1,5 @@
 import Image from "next/image";
+import type { CSSProperties } from "react";
 import { characters } from "@/data/characters";
 import { getCharacterAssetPath } from "@/data/character-assets";
 import type { CharacterId, CharacterPose } from "@/types/story";
@@ -8,7 +9,7 @@ type CharacterSpriteProps = {
   pose?: CharacterPose;
   label?: string;
   className?: string;
-  hideSourceLabel?: boolean;
+  style?: CSSProperties;
 };
 
 export function CharacterSprite({
@@ -16,7 +17,7 @@ export function CharacterSprite({
   pose = "front",
   label,
   className = "",
-  hideSourceLabel = false,
+  style,
 }: CharacterSpriteProps) {
   const character = characters.find((option) => option.id === characterId);
   const characterLabel = label ?? character?.title ?? "Character";
@@ -25,6 +26,7 @@ export function CharacterSprite({
   return (
     <span
       className={`pixel-art relative flex items-center justify-center overflow-hidden bg-transparent ${className}`}
+      style={style}
       role="img"
       aria-label={characterLabel}
     >
@@ -35,10 +37,9 @@ export function CharacterSprite({
           fill
           unoptimized
           sizes="160px"
-          className="pixel-art object-contain mix-blend-darken"
+          className="pixel-art object-contain"
           style={{
             imageRendering: "pixelated",
-            clipPath: hideSourceLabel ? "inset(12% 0 0 0)" : undefined,
           }}
         />
       ) : null}

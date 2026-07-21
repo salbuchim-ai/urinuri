@@ -23,7 +23,7 @@ export function FeatureLanding({
           href="/"
           className="inline-flex items-center gap-2 rounded-xl px-2 py-1 font-black text-sky-900 transition hover:bg-white/70 focus:outline-none focus:ring-4 focus:ring-yellow-200"
         >
-          <span aria-hidden="true">←</span> UriNuri
+          <span aria-hidden="true">&larr;</span> UriNuri
         </Link>
 
         <section className="mt-8 grid items-center gap-8 rounded-3xl border-[3px] border-sky-950 bg-white/85 p-6 pixel-shadow md:grid-cols-[1fr_1.1fr] md:p-10">
@@ -37,7 +37,7 @@ export function FeatureLanding({
               href={href}
               className="mt-8 inline-flex min-h-14 items-center justify-center gap-3 rounded-xl border-[3px] border-sky-950 bg-yellow-400 px-7 font-black text-sky-950 pixel-shadow transition hover:-translate-y-1 hover:bg-yellow-300 focus:outline-none focus:ring-4 focus:ring-yellow-200"
             >
-              {buttonLabel} <span aria-hidden="true">→</span>
+              {buttonLabel} <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
           <PixelScene variant={variant} className="min-h-80" />

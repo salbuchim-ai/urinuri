@@ -65,6 +65,85 @@ button:disabled {
   animation: pixel-bob 1.4s steps(2, end) infinite;
 }
 
+@keyframes pixel-character-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-4px) rotate(-1deg);
+  }
+}
+
+@keyframes pixel-icon-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-3px) rotate(1deg);
+  }
+}
+
+@keyframes pixel-scene-drift {
+  0%,
+  100% {
+    transform: scale(1.02) translate3d(0, 0, 0);
+  }
+  50% {
+    transform: scale(1.05) translate3d(-0.35%, -0.25%, 0);
+  }
+}
+
+@keyframes pixel-background-drift {
+  0%,
+  100% {
+    background-position: center bottom;
+  }
+  50% {
+    background-position: calc(50% + 5px) bottom;
+  }
+}
+
+.pixel-character-group > span {
+  animation: pixel-character-float 2.6s steps(4, end) infinite;
+  transform-origin: bottom center;
+}
+
+.pixel-character-group > span:nth-child(2) {
+  animation-delay: -0.9s;
+}
+
+.pixel-character-card {
+  animation: pixel-character-float 3.1s steps(4, end) infinite;
+  transform-origin: bottom center;
+}
+
+.pixel-icon-float {
+  animation: pixel-icon-float 3.4s steps(5, end) infinite;
+  transform-origin: center bottom;
+}
+
+.pixel-scene-drift {
+  animation: pixel-scene-drift 15s steps(12, end) infinite;
+  transform-origin: center center;
+}
+
+.pixel-background-drift {
+  animation: pixel-background-drift 18s steps(8, end) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pixel-bob,
+  .pixel-character-group > span,
+  .pixel-character-card,
+  .pixel-icon-float,
+  .pixel-scene-drift,
+  .pixel-background-drift {
+    animation: none;
+  }
+}
+
 .pixel-scene-grid {
   background-image: linear-gradient(rgba(255, 255, 255, 0.18) 1px, transparent 1px),
     linear-gradient(90deg, rgba(255, 255, 255, 0.18) 1px, transparent 1px);

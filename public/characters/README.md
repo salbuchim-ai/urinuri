@@ -16,6 +16,7 @@ back.png
 action.png
 ```
 
-The MVP character selection uses the exact `front.png` asset for Tiger,
-Dragon, Crow, Monkey, Fox, Rabbit, and Panda. Story loading scenes use the
-selected character's exact `action.png` asset.
+The character selection uses the exact `front.png` asset by default. When a
+character is selected, its card switches to the matching `action.png` asset
+for Tiger, Dragon, Crow, Monkey, Fox, Rabbit, and Panda. Story loading scenes
+also use the selected character's exact `action.png` asset.

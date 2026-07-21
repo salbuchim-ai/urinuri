@@ -22,4 +22,11 @@ export const adventures: StoryOption[] = [
     iconBackground: "bg-violet-100",
     sceneClass: "from-indigo-300 via-violet-100 to-emerald-200",
   },
+  {
+    id: "near-village",
+    title: "Near Village",
+    description: "Follow a sunny path to a friendly village beside the woods.",
+    iconBackground: "bg-amber-100",
+    sceneClass: "from-sky-200 via-amber-100 to-emerald-200",
+  },
 ];

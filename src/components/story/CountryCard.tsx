@@ -27,7 +27,7 @@ export function CountryCard({
         fill
         unoptimized
         sizes="390px"
-        className="pixel-art object-cover"
+        className="pixel-art pixel-scene-drift object-cover"
         style={{ imageRendering: "pixelated" }}
       />
       <span className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" aria-hidden="true" />

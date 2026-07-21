@@ -1,5 +1,6 @@
 "use client";
 
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { AdventureCard } from "@/components/story/AdventureCard";
 import { CharacterCard } from "@/components/story/CharacterCard";
@@ -9,7 +10,7 @@ import { NavigationButtons } from "@/components/story/NavigationButtons";
 import { StepHeader } from "@/components/story/StepHeader";
 import { ThemeCard } from "@/components/story/ThemeCard";
 import { useStoryFlow } from "@/components/story/StoryFlowProvider";
-import type { StoryOption, StorySelectionKey } from "@/types/story";
+import type { CharacterId, CharacterOption, StoryOption, StorySelectionKey } from "@/types/story";
 
 type SelectionStepProps = {
   currentStep: number;
@@ -33,11 +34,35 @@ export function SelectionStep({
   cardType,
 }: SelectionStepProps) {
   const router = useRouter();
-  const { selections, setSelection } = useStoryFlow();
+  const { selections, setSelection, toggleCharacterSelection } = useStoryFlow();
   const selectedValue = selections[selectionKey];
+  const selectedCharacters = selections.characters.length
+    ? selections.characters
+    : selections.character
+      ? [selections.character]
+      : [];
+  const [showCharacterToast, setShowCharacterToast] = useState(false);
+
+  useEffect(() => {
+    if (!showCharacterToast) return;
+
+    const timeoutId = window.setTimeout(() => setShowCharacterToast(false), 2000);
+    return () => window.clearTimeout(timeoutId);
+  }, [showCharacterToast]);
+
+  function handleCharacterSelect(characterId: CharacterId) {
+    if (!selectedCharacters.includes(characterId) && selectedCharacters.length >= 2) {
+      setShowCharacterToast(true);
+      return;
+    }
+
+    toggleCharacterSelection(characterId);
+  }
 
   function handleNext() {
-    if (selectedValue) {
+    const canContinue = cardType === "character" ? selectedCharacters.length > 0 : Boolean(selectedValue);
+
+    if (canContinue) {
       router.push(nextHref);
     }
   }
@@ -51,16 +76,23 @@ export function SelectionStep({
           <div className="mx-auto mt-3 max-w-[150px]">
             <StepHeaderProgress currentStep={currentStep} />
           </div>
+          {cardType === "character" ? (
+            <p className="mt-2 text-center text-xs font-bold text-slate-600">{selectedCharacters.length} / 2 Selected</p>
+          ) : null}
           <div className={`mt-4 grid gap-1.5 ${cardType === "country" || cardType === "adventure" ? "grid-cols-1" : "grid-cols-1"}`}>
             {options.map((option) => {
               const cardProps = {
                 option,
-                selected: selectedValue === option.id,
-                onSelect: () => setSelection(selectionKey, option.id),
+                selected: cardType === "character"
+                  ? selectedCharacters.includes(option.id as CharacterId)
+                  : selectedValue === option.id,
+                onSelect: () => cardType === "character"
+                  ? handleCharacterSelect(option.id as CharacterId)
+                  : setSelection(selectionKey, option.id),
               };
 
               if (cardType === "country") return <CountryCard key={option.id} {...cardProps} />;
-              if (cardType === "character") return <CharacterCard key={option.id} {...cardProps} />;
+              if (cardType === "character") return <CharacterCard key={option.id} {...cardProps} option={option as CharacterOption} />;
               if (cardType === "adventure") return <AdventureCard key={option.id} {...cardProps} />;
               if (cardType === "mood") return <MoodCard key={option.id} {...cardProps} />;
               return <ThemeCard key={option.id} {...cardProps} />;
@@ -69,10 +101,18 @@ export function SelectionStep({
           <NavigationButtons
             backHref={backHref}
             nextLabel="Next"
-            nextDisabled={!selectedValue}
+            nextDisabled={cardType === "character" ? selectedCharacters.length === 0 : !selectedValue}
             onNext={handleNext}
           />
         </section>
+        {cardType === "character" && showCharacterToast ? (
+          <div
+            className="fixed bottom-6 left-1/2 z-20 -translate-x-1/2 rounded-lg border border-slate-800 bg-slate-900 px-4 py-2 text-center text-xs font-bold text-white shadow-lg"
+            role="status"
+          >
+            Maximum 2 characters can be selected.
+          </div>
+        ) : null}
       </div>
     </main>
   );

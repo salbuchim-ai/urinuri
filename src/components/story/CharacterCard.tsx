@@ -1,17 +1,25 @@
 "use client";
 
 import { CharacterSprite } from "@/components/story/CharacterSprite";
-import type { CharacterId, StoryOption } from "@/types/story";
+import type { CharacterId, CharacterOption, CharacterPose } from "@/types/story";
 
 export function CharacterCard({
   option,
   selected,
   onSelect,
 }: {
-  option: StoryOption;
+  option: CharacterOption;
   selected: boolean;
   onSelect: () => void;
-}) {
+  }) {
+  const pose: CharacterPose = selected ? "action" : "front";
+  const display = pose === "front" ? option.display : undefined;
+  const spriteStyle = display
+    ? {
+        transform: `translateX(${display.cardFrontOffsetX ?? 0}px) scale(${display.cardFrontScale ?? 1})`,
+      }
+    : undefined;
+
   return (
     <button
       type="button"
@@ -22,13 +30,15 @@ export function CharacterCard({
       }`}
     >
       <span className="relative h-10 w-14 shrink-0 overflow-hidden bg-white">
-        <CharacterSprite
-          characterId={option.id as CharacterId}
-          pose="front"
-          label={option.title}
-          className="h-full w-full bg-transparent"
-        />
-        <span className="pointer-events-none absolute left-0 top-0 z-10 h-3 w-7 bg-white" aria-hidden="true" />
+        <span className="pixel-character-card absolute inset-0 flex items-center justify-center">
+          <CharacterSprite
+            characterId={option.id as CharacterId}
+            pose={pose}
+            label={option.title}
+            className="h-full w-full bg-transparent"
+            style={spriteStyle}
+          />
+        </span>
       </span>
       <span className="text-sm font-black text-slate-950">{option.title}</span>
     </button>

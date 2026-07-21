@@ -19,7 +19,6 @@ export function PixelCharacter({
         characterId={characterId}
         pose={pose}
         label={`${character.title} pixel character`}
-        hideSourceLabel
         className="h-full w-full bg-transparent"
       />
     </div>

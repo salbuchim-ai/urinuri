@@ -14,7 +14,7 @@ export function LengthStep() {
 
   function handleNext() {
     if (selections.length) {
-      router.push("/story/result");
+      router.push("/story/generating");
     }
   }
 
@@ -37,6 +37,16 @@ export function LengthStep() {
               />
             ))}
           </div>
+          {selections.length === "long" ? (
+            <p className="mt-3 rounded-lg bg-emerald-50 px-3 py-2 text-center text-[11px] font-bold leading-4 text-emerald-900">
+              The demo ends this chapter with a gentle “more to come” feeling. The full version can grow to about 3,000 words.
+            </p>
+          ) : null}
+          {selections.length === "series" ? (
+            <p className="mt-3 rounded-lg bg-yellow-50 px-3 py-2 text-center text-[11px] font-bold leading-4 text-amber-950">
+              After each episode, you can choose a new path for the next part of the adventure.
+            </p>
+          ) : null}
           <NavigationButtons
             backHref="/create/theme"
             nextLabel="Next"

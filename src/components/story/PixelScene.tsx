@@ -20,7 +20,7 @@ export function PixelScene({ variant, className = "" }: PixelSceneProps) {
         fill
         unoptimized
         sizes="390px"
-        className="pixel-art object-cover"
+        className="pixel-art pixel-scene-drift object-cover"
         style={{ imageRendering: "pixelated" }}
       />
     </div>
