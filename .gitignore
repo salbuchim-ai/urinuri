@@ -43,3 +43,5 @@ next-env.d.ts
 
 # local image-editor / antivirus sidecar files
 *.alyac
+
+.vercel
