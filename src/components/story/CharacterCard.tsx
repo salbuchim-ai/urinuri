@@ -29,8 +29,8 @@ export function CharacterCard({
         selected ? "border-amber-500 ring-2 ring-amber-400" : "border-slate-300 hover:border-blue-500"
       }`}
     >
-      <span className="relative h-10 w-14 shrink-0 overflow-hidden bg-white">
-        <span className="pixel-character-card absolute inset-0 flex items-center justify-center">
+      <span className="relative h-10 w-14 shrink-0 overflow-hidden bg-white [contain:paint]">
+        <span className="pixel-character-card absolute inset-0 flex items-center justify-center overflow-hidden">
           <CharacterSprite
             characterId={option.id as CharacterId}
             pose={pose}

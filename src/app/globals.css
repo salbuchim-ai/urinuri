@@ -68,10 +68,10 @@ button:disabled {
 @keyframes pixel-character-float {
   0%,
   100% {
-    transform: translateY(0) rotate(0deg);
+    transform: translate3d(0, 0, 0);
   }
   50% {
-    transform: translateY(-4px) rotate(-1deg);
+    transform: translate3d(0, -2px, 0);
   }
 }
 
@@ -117,6 +117,8 @@ button:disabled {
 .pixel-character-card {
   animation: pixel-character-float 3.1s steps(4, end) infinite;
   transform-origin: bottom center;
+  clip-path: inset(0);
+  contain: paint;
 }
 
 .pixel-icon-float {

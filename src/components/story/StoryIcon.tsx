@@ -9,7 +9,7 @@ export function StoryIcon({ src, alt, className = "" }: { src: string; alt: stri
         fill
         unoptimized
         sizes="64px"
-        className="pixel-art object-contain mix-blend-darken"
+        className="pixel-art object-contain"
         style={{ imageRendering: "pixelated" }}
       />
     </span>
