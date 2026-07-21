@@ -11,6 +11,7 @@ import { themes } from "@/data/themes";
 import { buildDirections, buildIntro } from "@/lib/story-content";
 import { isLiveStoryGeneration } from "@/lib/story-mode";
 import { CharacterGroup } from "@/components/story/CharacterGroup";
+import { SceneMotionOverlay } from "@/components/story/SceneMotionOverlay";
 import { ProgressIndicator } from "@/components/story/ProgressIndicator";
 import { useStoryFlow } from "@/components/story/StoryFlowProvider";
 import type { AdventureId, CharacterId, CountryId, LengthId, MoodId, ThemeId } from "@/types/story";
@@ -121,7 +122,8 @@ export function GeneratingStory() {
             className="pixel-art pixel-scene-drift object-cover"
             style={{ imageRendering: "pixelated" }}
           />
-          <div className={`absolute bottom-0 left-1/2 h-28 ${selectedCharacterIds.length > 1 ? "w-40" : "w-28"} -translate-x-1/2`}>
+          <SceneMotionOverlay scene={adventureId} />
+          <div className={`pixel-scene-characters absolute bottom-0 left-1/2 h-28 ${selectedCharacterIds.length > 1 ? "w-40" : "w-28"} -translate-x-1/2`}>
             <CharacterGroup characterIds={selectedCharacterIds} pose="action" className="h-full w-full" />
           </div>
         </div>

@@ -1,5 +1,5 @@
-import Image from "next/image";
 import Link from "next/link";
+import { FolktaleIllustration } from "@/components/story/FolktaleIllustration";
 import { worldStories } from "@/data/world-stories";
 
 export default function WorldStoriesPage() {
@@ -32,16 +32,7 @@ export default function WorldStoriesPage() {
                 aria-label={`Read ${story.title} from ${story.countryLabel}`}
                 className="group flex h-full min-h-[390px] flex-col overflow-hidden rounded-2xl border-2 border-sky-200 bg-white text-left shadow-sm transition duration-200 hover:-translate-y-1 hover:border-sky-500 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-200 active:translate-y-0"
               >
-                <div className="relative h-44 shrink-0 overflow-hidden bg-sky-100">
-                  <Image
-                    src={story.imageSrc}
-                    alt={story.imageAlt}
-                    fill
-                    sizes="(min-width: 1024px) 30vw, (min-width: 640px) 45vw, 100vw"
-                    className="pixel-art pixel-scene-drift object-cover transition duration-200 group-hover:scale-[1.03]"
-                    style={{ imageRendering: "pixelated" }}
-                  />
-                </div>
+                <FolktaleIllustration story={story} compact />
                 <div className="flex flex-1 flex-col p-4">
                   <p className="text-xs font-black uppercase tracking-[0.16em] text-sky-700">{story.countryLabel}</p>
                   <span className="mt-2 inline-flex w-fit rounded-full bg-sky-50 px-2.5 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-sky-800">

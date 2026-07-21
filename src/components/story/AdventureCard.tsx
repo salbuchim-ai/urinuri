@@ -1,7 +1,8 @@
 "use client";
 
 import Image from "next/image";
-import type { StoryOption } from "@/types/story";
+import { SceneMotionOverlay } from "@/components/story/SceneMotionOverlay";
+import type { AdventureId, StoryOption } from "@/types/story";
 
 export function AdventureCard({
   option,
@@ -30,6 +31,7 @@ export function AdventureCard({
         className="pixel-art pixel-scene-drift object-cover"
         style={{ imageRendering: "pixelated" }}
       />
+      <SceneMotionOverlay scene={option.id as AdventureId} compact />
       <span className="absolute inset-0 bg-gradient-to-t from-slate-950/45 via-transparent to-transparent" aria-hidden="true" />
       <span className="relative flex w-full items-end justify-center pb-3 text-center">
         <span className="rounded bg-white/80 px-2 py-1 text-sm font-black text-slate-950">{option.title}</span>

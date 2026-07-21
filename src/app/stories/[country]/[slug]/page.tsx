@@ -1,6 +1,6 @@
-import Image from "next/image";
 import Link from "next/link";
 import { redirect } from "next/navigation";
+import { FolktaleIllustration } from "@/components/story/FolktaleIllustration";
 import { getWorldStory, worldStories } from "@/data/world-stories";
 
 export function generateStaticParams() {
@@ -33,16 +33,7 @@ export default async function WorldStoryDetailPage({
         </Link>
 
         <article className="mt-8 overflow-hidden rounded-3xl border-[3px] border-sky-950 bg-white/90 pixel-shadow">
-          <div className="relative h-64 bg-sky-100 sm:h-80">
-            <Image
-              src={story.imageSrc}
-              alt={story.imageAlt}
-              fill
-              sizes="(min-width: 768px) 720px, 100vw"
-              className="pixel-art pixel-scene-drift object-cover"
-              style={{ imageRendering: "pixelated" }}
-            />
-          </div>
+          <FolktaleIllustration story={story} />
           <div className="p-6 md:p-10">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-sky-700">{story.countryLabel}</p>
             <span className="mt-3 inline-flex rounded-full bg-sky-50 px-3 py-1 text-[10px] font-black uppercase tracking-[0.08em] text-sky-800">

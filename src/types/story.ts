@@ -80,7 +80,8 @@ export type CharacterPose =
   | "front"
   | "side"
   | "back"
-  | "action";
+  | "action"
+  | "blink";
 
 export type CharacterOption = StoryOption & {
   assetFolder: CharacterId;
@@ -90,6 +91,23 @@ export type CharacterOption = StoryOption & {
 export type CharacterDisplayConfig = {
   cardFrontScale?: number;
   cardFrontOffsetX?: number;
+  blinkDelay?: string;
+  blink?: CharacterBlinkConfig;
+};
+
+export type CharacterBlinkConfig = {
+  maskColor: string;
+  lineColor: string;
+  delay?: string;
+  left: CharacterBlinkEye;
+  right: CharacterBlinkEye;
+};
+
+export type CharacterBlinkEye = {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
 };
 
 export type CharacterAssetMap = Partial<Record<CharacterPose, string>>;

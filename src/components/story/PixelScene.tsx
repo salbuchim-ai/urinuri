@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { AmbientSceneEffects } from "@/components/story/AmbientSceneEffects";
 
 type PixelSceneProps = {
   variant: "village" | "legend";
@@ -23,6 +24,7 @@ export function PixelScene({ variant, className = "" }: PixelSceneProps) {
         className="pixel-art pixel-scene-drift object-cover"
         style={{ imageRendering: "pixelated" }}
       />
+      <AmbientSceneEffects kind={variant === "legend" ? "night" : "wind"} />
     </div>
   );
 }
